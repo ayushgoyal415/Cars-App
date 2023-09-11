@@ -1,0 +1,11 @@
+Before starting the app make sure the following changes are implemented:
+Step 1: Add node dependencies in the root folder 
+Step 2: Add node dependencies in the JSX folder
+Step 3: Set up openssl certificate (see back end web dev for setting certificate)
+
+Step 4: Set up mysql server with following settings
+        host: localhost
+        user: root
+        pass: 0000
+
+Step 5: Create database sql_cars
