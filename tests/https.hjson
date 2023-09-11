@@ -1,0 +1,265 @@
+//* Logging in to get access
+[
+    POST https://localhost:3002/api/auth/login
+    content-type: application/json
+
+    {
+        "username": "ayushgoyal415@gmail.com",
+        "password": "Hello@123"
+    }
+
+    https://localhost:3002/api/check_logged
+]
+
+//* Posting a new car (/api/cars)
+[
+    // Posting a new car (Multi-word car name and multi-word property name is allowed)
+    POST https://localhost:3002/api/cars
+    content-type: application/json
+
+    {
+        "name": "hyundai verna",
+        "speed": "140",
+        "main features": "comfort, speedy"
+    }
+
+    //+ Check
+    https://localhost:3002/api/cars/hyundai%20verna
+
+    // Trying to post a car name with leading or trailing whitespaces
+    POST https://localhost:3002/api/cars
+    content-type: application/json
+
+    {
+        "name": "thar ",
+        "speed" : "120",
+        "average" : "10"
+    }
+
+    // Trying to post a property name with leading or trailing whitespaces
+    POST https://localhost:3002/api/cars
+    content-type: application/json
+
+    {
+        "name": "thar",
+        "speed " : "120",
+        " average" : "10"
+    }
+
+    // Trying to post a property value with leading or trailing whitespaces
+    POST https://localhost:3002/api/cars
+    content-type: application/json
+
+    {
+        "name": "thar",
+        "speed" : " 120",
+        "average" : "10 "
+    }
+
+    // Trying to post a car which already exists
+    POST https://localhost:3002/api/cars
+    content-type: application/json
+
+    {
+        "name": "zen",
+        "speed": "140",
+        "average": "17"
+    }
+
+    // Trying to post a car without a name
+    POST https://localhost:3002/api/cars
+    content-type: application/json
+
+    {"name" : ""}
+
+    // Trying to post a property with empty property name
+    POST https://localhost:3002/api/cars
+    content-type: application/json
+
+    {
+        "name": "bmw",
+        "": "140",
+        "average": "17"
+    }
+
+    // Trying to post a property with empty property value
+    POST https://localhost:3002/api/cars
+    content-type: application/json
+
+    {
+        "name": "bmw",
+        "speed": "",
+        "average": "17"
+    }
+
+    // Trying to post a basic property, other than name (car_id, posted_by, created_on)
+    POST https://localhost:3002/api/cars
+    content-type: application/json
+
+    {
+        "name": "bmw",
+        "car_id": 3
+    }
+
+
+    //+ See JOI rules for additional checks for car name and property characters
+
+]
+
+//* Posting multiple property(s) into a car (/api/cars/:car) -> throws error if a property already exists
+[
+    // Posting new property(s) (multi-word property names are allowed)
+    POST https://localhost:3002/api/cars/zen
+    content-type: application/json
+
+    {
+        "price": "120000",
+        "cheap": "true",
+        "main features": "cheap, compact"
+    }
+
+    //+ Check
+    https://localhost:3002/api/cars/zen
+
+    // Trying to post basic properties (name, craeted_on, posted_by, car_id)
+    POST https://localhost:3002/api/cars/zen
+    content-type: application/json
+
+    {
+        "name": "verna"
+    }
+
+    // Trying to post a property which already exists
+    POST https://localhost:3002/api/cars/zen
+    content-type: application/json
+
+    {
+        "speed": "120",
+        "average": "20"
+    }
+
+    // Trying to post property to a car when car itself does not exist
+    POST https://localhost:3002/api/cars/ze
+    content-type: application/json
+
+    {
+        "speed": "120",
+        "average": "20"
+    }
+
+    // Trying to post an empty request body
+    POST https://localhost:3002/api/cars/zen
+    content-type: application/json
+
+    {}
+
+    // Trying to post a property with an empty name
+    POST https://localhost:3002/api/cars/zen
+    content-type: application/json
+
+    {
+        "": "140",
+        "comfort": "false"
+    }
+
+    // Trying to post a property with an empty value
+    POST https://localhost:3002/api/cars/zen
+    content-type: application/json
+
+    {
+        "alloys": "",
+        "comfort": "false"
+    }
+
+    //+ All JOI rules for property name and property value apply
+    
+]
+
+//* Updating property(s) of a car (/api/cars/:car) -> throws error if a property does not exist
+[
+    // Updating multiple properties
+    PUT https://localhost:3002/api/cars/zen
+    content-type: application/json
+
+    {
+        "speed": "200",
+        "average": "200"
+    }
+
+    //+ Check
+    https://localhost:3002/api/cars/zen
+
+    // Trying to update properties of a car when car itself does not exist
+    PUT https://localhost:3002/api/cars/zn
+    content-type: application/json
+
+    {
+        "speed": "200",
+        "average": "40"
+    }
+
+    // Trying to update a property which the car does not have
+    PUT https://localhost:3002/api/cars/zen
+    content-type: application/json
+
+    {
+        "alloys": "false"
+    }
+
+    // Trying to update basic properties (created_on, posted_by, car_id, name)
+    PUT https://localhost:3002/api/cars/zen
+    content-type: application/json
+
+    {
+        "name": "verna"
+    }
+
+    // Trying to update with empty request body
+    PUT https://localhost:3002/api/cars/zen
+    content-type: application/json
+
+    {}
+
+    // Trying to update a propety value to an empty string
+    PUT https://localhost:3002/api/cars/zen
+    content-type: application/json
+
+    {
+        "speed": "",
+        "average": "120"
+    }
+
+    //+ See JOI rules for additional checks for the property value
+]
+
+//* DELETE
+[    
+    // Deleting property of a car
+    DELETE https://localhost:3002/api/cars/zen/average
+
+    //+ Check
+    https://localhost:3002/api/cars/zen
+    
+    //~ Property name must not contain unnecessary whitespaces
+    DELETE https://localhost:3002/api/cars/zen/speed%20
+    
+    // Trying to delete a property when the car itself does not exist
+    DELETE https://localhost:3002/api/cars/zn/speed
+    
+    // Trying to delete a property which the car does not have
+    DELETE https://localhost:3002/api/cars/zen/sped
+    
+    // Trying to delete basic properties that every car must have (name, posted_by, created_on, car_id)
+    DELETE https://localhost:3002/api/cars/zen/name
+
+
+    // Deleting a car
+    DELETE https://localhost:3002/api/cars/alto
+
+    //+ Check
+    https://localhost:3002/api/cars
+    
+    //~ Car not found
+    DELETE https://localhost:3002/api/cars/zn
+
+]

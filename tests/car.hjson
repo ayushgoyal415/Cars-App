@@ -1,0 +1,375 @@
+//* Logging in to get access
+[
+    POST http://localhost:3000/api/auth/login
+    content-type: application/json
+
+    {
+        "username": "ayushgoyal415@gmail.com",
+        "password": "Hello@123"
+    }
+]
+
+//* GET
+[
+    // Getting all cars
+    http://localhost:3000/api/cars
+    
+
+    // Getting car by name
+    http://localhost:3000/api/cars/zen
+
+    // Trying to get a car that does not exist
+    http://localhost:3000/api/cars/verna
+
+
+
+    // Getting a multi-word property of a multi-word car
+    http://localhost:3000/api/cars/maruti%20baleno/major%20contributions
+
+    // Trying to get property of a car when car itself does not exist
+    http://localhost:3000/api/cars/verna/speed
+    
+    // Trying to get a property which the car does not have
+    http://localhost:3000/api/cars/zen/price
+
+    // Trying to get basic properties (car_id, posted_by, created_on, name)
+    http://localhost:3000/api/cars/zen/car_id
+
+]
+
+//* Posting a new car (/api/cars)
+[
+    // Posting a new car (Multi-word car name and multi-word property name is allowed)
+    POST http://localhost:3000/api/cars
+    content-type: application/json
+
+    {
+        "name": "hyundai verna",
+        "speed": "140",
+        "main features": "comfort, speedy"
+    }
+
+    //+ Check
+    http://localhost:3000/api/cars/hyundai%20verna
+
+    // Posting a car with useless whitespaces is allowed
+    POST http://localhost:3000/api/cars
+    content-type: application/json
+
+    {
+        "name": "thar ",
+        "speed " : " 120 ",
+        "  average   " : "   10  "
+    }
+
+    //+ Check
+    http://localhost:3000/api/cars/thar
+
+
+    // Trying to post a car which already exists
+    POST http://localhost:3000/api/cars
+    content-type: application/json
+
+    {
+        "name": "zen",
+        "speed": "140",
+        "average": "17"
+    }
+
+    // Trying to post a car without name
+    POST http://localhost:3000/api/cars
+    content-type: application/json
+
+    {}
+
+    // Trying to post a car with empty name
+    POST http://localhost:3000/api/cars
+    content-type: application/json
+
+    {
+        "name": "",
+        "speed": "140",
+        "average": "17"
+    }
+
+    // Trying to post a property with empty property name
+    POST http://localhost:3000/api/cars
+    content-type: application/json
+
+    {
+        "name": "bmw",
+        "": "140",
+        "average": "17"
+    }
+
+    // Trying to post a property with empty property value
+    POST http://localhost:3000/api/cars
+    content-type: application/json
+
+    {
+        "name": "bmw",
+        "speed": "",
+        "average": "17"
+    }
+
+    // Trying to post a basic property, other than name (car_id, posted_by, created_on)
+    POST http://localhost:3000/api/cars
+    content-type: application/json
+
+    {
+        "name": "bmw",
+        "car_id": 3
+    }
+
+
+    //+ See JOI rules for additional checks for car name and property characters
+
+]
+
+//* Posting multiple property(s) into a car (/api/cars/:car) -> throws error if a property already exists
+[
+    // Posting new property(s) (multi-word property name is allowed)
+    POST http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {
+        "price": "120000",
+        "cheap": "true",
+        "main features": "cheap, compact"
+    }
+
+    //+ Check
+    http://localhost:3000/api/cars/zen
+
+    // Posting new property(s) with useless whitespaces is allowed
+    POST http://localhost:3000/api/cars/alto
+    content-type: application/json
+
+    {
+        " price  ": " 120000  ",
+        "cheap": "true",
+        "main features": "cheap, compact"
+    }
+
+    //+ Check
+    http://localhost:3000/api/cars/alto
+
+    // Trying to post basic properties (name, created_on, posted_by, car_id)
+    POST http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {
+        "name": "verna",
+        "cheap": "true",
+        "average": "200"
+    }
+
+    // Trying to post a property which already exists
+    POST http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {
+        "speed": "120",
+        "average": "20"
+    }
+
+    // Trying to post property to a car when car itself does not exist
+    POST http://localhost:3000/api/cars/ze
+    content-type: application/json
+
+    {
+        "speed": "120",
+        "average": "20"
+    }
+
+    // Trying to post an empty request body
+    POST http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {}
+
+    // Trying to post a property with an empty name
+    POST http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {
+        "": "140",
+        "comfort": "false"
+    }
+
+    // Trying to post a property with an empty value
+    POST http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {
+        "alloys": "",
+        "comfort": "false"
+    }
+
+    //+ See JOI rules for additional checks for property characters 
+    
+]
+
+//* Updating property(s) of a car (/api/cars/:car) -> throws error if a property does not exist
+[
+    // Updating multiple properties
+    PUT http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {
+        "speed": "200",
+        "average": "200"
+    }
+
+    //+ Check
+    http://localhost:3000/api/cars/zen
+
+    // Can updating multiple properties with unnecessary white spaces
+    PUT http://localhost:3000/api/cars/alto
+    content-type: application/json
+
+    {
+        "    speed      " : "  200   ",
+        "average": "200"
+    }
+
+    //+ Check
+    http://localhost:3000/api/cars/alto
+
+    // Trying to update properties of a car when car itself does not exist
+    PUT http://localhost:3000/api/cars/zn
+    content-type: application/json
+
+    {
+        "speed": "200",
+        "average": "40"
+    }
+
+    // Trying to update basic properties (created_on, posted_by, car_id, name)
+    PUT http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {
+        "name": "verna"
+    }
+
+    // Trying to update a property which the car does not have
+    PUT http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {
+        "alloys": "false"
+    }
+
+    // Trying to update with empty request body
+    PUT http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {}
+
+    // Trying to update a propety value to an empty string
+    PUT http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {
+        "speed": "",
+        "average": "120"
+    }
+
+    //+ See JOI rules for additional checks for property characters
+]
+
+//* DELETE
+[    
+    // Deleting property of a car
+    DELETE http://localhost:3000/api/cars/zen/average
+
+    //+ Check
+    http://localhost:3000/api/cars/zen
+    
+    // Deleting property of a car when property name has unnecessary whitespaces
+    DELETE http://localhost:3000/api/cars/zen/speed%20
+
+    //+ Check
+    http://localhost:3000/api/cars/zen
+    
+    // Trying to delete a property when the car itself does not exist
+    DELETE http://localhost:3000/api/cars/zn/speed
+    
+    // Trying to delete a property which the car does not have
+    DELETE http://localhost:3000/api/cars/zen/sped
+    
+    // Trying to delete basic properties that every car must have (name, posted_by, created_on, car_id)
+    DELETE http://localhost:3000/api/cars/zen/name
+
+
+    // Deleting a car
+    DELETE http://localhost:3000/api/cars/alto
+
+    //+ Check
+    http://localhost:3000/api/cars
+    
+    //~ Car not found
+    DELETE http://localhost:3000/api/cars/zn
+
+]
+
+//* JOI rules for car name (.string().min(3).max(50).trim().required())
+[
+    //~ Must be a string
+    POST http://localhost:3000/api/cars
+    content-type: application/json
+
+    {"name": 500}
+
+    //~ Must be at least 3 letters long
+    POST http://localhost:3000/api/cars
+    content-type: application/json
+
+    {"name": "ve"}
+
+    //~ Must not be more than 50 letters long
+    POST http://localhost:3000/api/cars
+    content-type: application/json
+
+    {"name": "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"}
+
+]
+
+//* JOI rules for property name (.string().min(3).max(50)trim().required().disallow("created_on, posted_by, car_id"))
+[
+    //~ Must be at least 3 letters long
+    POST http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {"sp": "120"}
+
+    //~ Must not be more than 50 letters long
+    POST http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh": "hello"}
+
+]
+
+//* JOI rules for property value (.string().min(1).max(50).trim().disallow("null"))
+[
+    //~ Must be a string
+    POST http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {"alloys": true}
+
+    //~ Must not be more than 50 letters long
+    POST http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {"comments": "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"}
+
+    //~ Must not be null
+    POST http://localhost:3000/api/cars/zen
+    content-type: application/json
+
+    {"drawbacks": "null"}
+
+]

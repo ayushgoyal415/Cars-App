@@ -1,0 +1,41 @@
+.credentials input {
+  display: flex;
+  width: 100%;
+  font-size: 17px;
+  border: none;
+  outline: none;
+  padding: 0;
+  background-color:transparent;
+  color: rgb(247, 143, 7);
+  caret-color: tomato;
+  padding: 5px 20px 8px 0px;
+}
+.credentials fieldset{
+  position: relative;
+  color: rgb(0, 166, 255);
+  border-radius: 4px;
+  margin-bottom: 30px;
+  margin-top: 0px;
+  font-size: 12px;
+  padding-left: 20px;
+  padding-top: 0px;
+  transition: background-color 0.15s;
+}
+.credentials legend{
+  user-select: none;
+}
+
+.fa-icon {
+  padding: 8px;
+  border-radius: 5px;
+  color: lightgray;
+}
+.fa-icon:hover{
+  background-color: rgba(243, 145, 7, 0.127);
+}
+.focused{
+  border: 1px solid rgb(0, 166, 255);
+}
+.blurred{
+  border: 1px solid rgb(43, 43, 43);
+}

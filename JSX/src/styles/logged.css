@@ -1,0 +1,22 @@
+.logged-circle {
+  height: 10px;
+  width: 10px;
+  border-radius: 10px;
+}
+.logged-circle.disabled {
+  background-color: gray;
+}
+.logged-circle.enabled {
+  background-color: rgb(2, 151, 2);
+}
+.logged-circle.enabled:hover {
+  background-color: rgb(5, 255, 5);
+}
+
+.logged-account {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+}

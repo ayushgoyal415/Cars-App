@@ -1,0 +1,35 @@
+.badge {
+  position: absolute;
+  inset: -5px 7px;
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: rgb(50, 50, 50);
+  color: yellow;
+  font-size: 11px;
+  font-family: Arial;
+  user-select: none;
+  text-align: center;
+  padding-top: 1px;
+  padding-left: 1px;
+}
+.response-nav {
+  display: flex;
+}
+.response-nav button {
+  color: white;
+  background-color: transparent;
+  border: 1px solid rgb(50, 50, 50);
+  height: 40px;
+  width: 40px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: color 0.15s background-color 0.15s;
+}
+.response-nav button:hover {
+  background-color: rgb(247, 110, 6);
+  color: black;
+}
+.response-nav button:active {
+  background-color: rgb(247, 80, 6);
+}

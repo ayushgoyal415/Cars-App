@@ -1,0 +1,257 @@
+//. A user can access homepage and auth routes (ie sign up & login routes) before logging in.
+//. All other services can only be accessed if a user is logged in
+
+//* Auth routes (login and sign-up)
+[
+    // Sign up
+    //+ See JOI rules for additional checks for username, password, first_name, last_name
+    POST http://localhost:3000/api/auth/signup
+    content-type: application/json
+
+    {
+        "username": "goyalabeesh@yahoo.co.in",
+        "password": "Hello@123",
+        "first_name": "Abeesh",
+        "last_name": "Goyal"
+    }
+
+    // Login
+    POST http://localhost:3000/api/auth/login
+    content-type: application/json
+
+    {
+        "username": "goyalabeesh@yahoo.co.in",
+        "password": "Hello@123"
+    }
+
+    // Trying to sign up a new account when already logged in
+    POST http://localhost:3000/api/auth/signup
+    content-type: application/json
+
+    {
+        "username": "hello@gmail.com",
+        "password": "Hello@123",
+        "first_name": "Ayush",
+        "last_name": "Goyal"
+    }
+    
+    // Trying to login into a different account when already logged in
+    POST http://localhost:3000/api/auth/login
+    content-type: application/json
+
+    {
+        "username": "ayushgoyal415@gmail.com",
+        "password": "Hello@123"
+    }
+
+    // Logout (redirects to homepage)
+    //. Although described here, logout is an account route and thus can
+    //. be accessed only by logged users
+    http://localhost:3000/api/account/logout
+
+    // Trying to create a new account with same username
+    POST http://localhost:3000/api/auth/signup
+    content-type: application/json
+
+    {
+        "username": "goyalabeesh@yahoo.co.in",
+        "password": "Hello@123",
+        "first_name": "Abeesh",
+        "last_name": "Goyal"
+    }
+
+    // Trying to create a new account without sending username/password/first_name/last_name
+    POST http://localhost:3000/api/auth/signup
+    content-type: application/json
+
+    {
+        "username": "goyalabeesh@yahoo.co.in",
+        "password": "Hello@123",
+        "first_name": "Abeesh"
+    }
+
+    // Trying to create a new account with empty username/password/first_name/last_name
+    POST http://localhost:3000/api/auth/signup
+    content-type: application/json
+
+    {
+        "username": "goyalabeesh@yahoo.co.in",
+        "password": "Hello@123",
+        "first_name": "Abeesh",
+        "last_name" : ""
+    }
+
+    // Trying to login without sending password/username
+    POST http://localhost:3000/api/auth/login
+    content-type: application/json
+
+    {
+        "username": "goyalabeesh@yahoo.co.in"
+    }
+
+    // Trying to login with empty username/password
+    POST http://localhost:3000/api/auth/login
+    content-type: application/json
+
+    {
+        "username": "goyalabeesh@yahoo.co.in",
+        "password": ""
+    }
+
+    // Trying to login with a wrong password
+    POST http://localhost:3000/api/auth/login
+    content-type: application/json
+
+    {
+        "username": "goyalabeesh@yahoo.co.in",
+        "password": "Hello"
+    }
+
+    // Trying to login with a wrong username
+    POST http://localhost:3000/api/auth/login
+    content-type: application/json
+
+    {
+        "username": "goyal@yahoo.co.in",
+        "password": "Hello@123"
+    }
+]
+
+//* Account route : Update password
+[
+    //. Requires account sign-up and login before access
+
+    // Login
+    POST http://localhost:3000/api/auth/login
+    content-type: application/json
+
+    {
+        "username": "anjugoyal415@gmail.com",
+        "password": "Hello@123"
+    }
+
+    // Updating password
+    //+ See JOI rules for additional checks for password
+    PUT http://localhost:3000/api/account/update_password
+    content-type: application/json
+
+    {
+        "current_password": "Hello@123",
+        "new_password": "Bye@123"
+    }
+    
+    // Logging out
+    http://localhost:3000/api/account/logout
+
+    //+ Check : Logging in with the updated password
+    POST http://localhost:3000/api/auth/login
+    content-type: application/json
+
+    {
+        "username": "anjugoyal415@gmail.com",
+        "password": "Bye@123"
+    }
+
+    // Trying to update pass without sending current_password/new_password
+    PUT http://localhost:3000/api/account/update_password
+    content-type: application/json
+
+    {
+        "new_password": "Bye@123"
+    }
+
+    // Trying to update pass without sending an empty current_password/new_password
+    PUT http://localhost:3000/api/account/update_password
+    content-type: application/json
+
+    {
+        "current_password" : "",
+        "new_password": "Bye@123"
+    }
+
+
+    // Trying to set new password same as current password
+    PUT http://localhost:3000/api/account/update_password
+    content-type: application/json
+
+    {
+        "current_password": "Bye@123",
+        "new_password": "Bye@123"
+    }
+
+    // Trying to update password by sending a wrong current password
+    PUT http://localhost:3000/api/account/update_password
+    content-type: application/json
+
+    {
+        "current_password": "ByeBye@123",
+        "new_password": "Hello@123"
+    }
+
+    // Logout
+    http://localhost:3000/api/account/logout
+]
+
+//* Account route : Delete account
+[
+    //. Requires account sign-up and login before access
+
+    // Login
+    POST http://localhost:3000/api/auth/login
+    content-type: application/json
+
+    {
+        "username": "pushpinderbobby98@gmail.com",
+        "password": "Hello@123"
+    }
+    
+    // Delete Account
+    DELETE http://localhost:3000/api/account/delete_account
+    content-type: application/json
+
+    {
+        "password": "Hello@123"
+    }
+
+    //+ Check: Trying to login after deleting account
+    POST http://localhost:3000/api/auth/login
+    content-type: application/json
+
+    {
+        "username": "pushpinderbobby98@gmail.com",
+        "password": "Hello@123"
+    }
+]
+
+//* Account route : Delete account (examining wrong test cases)
+[
+    //. Requires account sign-up and login before access
+
+    // Login 
+    POST http://localhost:3000/api/auth/login
+    content-type: application/json
+
+    {
+        "username": "prernagoyal415@gmail.com",
+        "password": "Hello@123"
+    }
+
+    // Trying to delete account by not sending current password
+    DELETE http://localhost:3000/api/account/delete_account
+
+    // Trying to delete account by sending an empty current password
+    DELETE http://localhost:3000/api/account/delete_account
+    content-type: application/json
+
+    {
+        "password": ""
+    }
+    
+    // Trying to delete account by sending a wrong current password
+    DELETE http://localhost:3000/api/account/delete_account
+    content-type: application/json
+
+    {
+        "password": "Bye@123"
+    }
+]
