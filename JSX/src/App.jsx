@@ -15,8 +15,6 @@ import Response from './components/Response';
 import { input_names, titles } from './data/data';
 
 export default function App() {
-  console.log('App rendered');
-
   const [form_data, set_form_data] = React.useState(input_names);
   const [page, set_page] = React.useState('signup');
   const [res, set_res] = React.useState([]);

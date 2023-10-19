@@ -1,11 +1,34 @@
 Before starting the app make sure the following changes are implemented:
+
 Step 1: Add node dependencies in the root folder 
 Step 2: Add node dependencies in the JSX folder
-Step 3: Set up openssl certificate (see back end web dev for setting certificate)
+Step 3: Set up openssl certificate (see 'https setup' for setting certificate)
 
 Step 4: Set up mysql server with following settings
         host: localhost
         user: root
         pass: 0000
 
-Step 5: Create database sql_cars
+Step 5: Set up the MySQL VS Code extension (new extension)
+
+    - If not connecting, try by executing the following command in MySQL Command Line 
+    ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '0000';
+
+    host: localhost
+    user: root
+    password: 0000
+    port: 3306
+
+Step 6: Create database sql_cars
+
+Step 7: Install mongodb
+
+Step 8: Set up mongodb VS Code extension (no need to know password or username)
+
+Step 9: Create a schema 'users' using following command: db("users").createCollection("collection")
+
+Step 10: Install nodemon global (if not already installed) : npm install --global nodemon
+
+Step 11: Open cmd and execute: npm run dev
+
+Step 12: Open cmd and execute: npm start

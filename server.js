@@ -4,8 +4,8 @@ const { HTTPS_PORT = 3001, HTTP_PORT = 3000, LS_PORT } = process.env;
 
 // Importing key and certificate
 const fs = require('fs');
-const key = fs.readFileSync('C:/openssl/localhost.decrypted.key');
-const cert = fs.readFileSync('C:/openssl/localhost.crt');
+const key = fs.readFileSync('./https setup/lsc/localhost.decrypted.key');
+const cert = fs.readFileSync('./https setup/lsc/localhost.crt');
 
 // Creating an express app
 const express = require('express');
@@ -34,11 +34,19 @@ app.use(
 
 // Implementing express-session middleware
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
+
 app.use(
   session({
     secret: 'ayush',
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: 'mongodb://127.0.0.1:27017/users', 
+      ttl: 14 * 24 * 60 * 60,
+      autoRemove: 'native',
+      touchAfter: 24 * 3600
+    }),
     cookie: { sameSite: 'none', secure: true }
   })
 );
